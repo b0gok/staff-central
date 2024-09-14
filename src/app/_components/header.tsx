@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from '~/components/ui/sheet';
 import {Castle, Menu } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { getServerAuthSession } from '~/server/auth';
+import { routes } from '~/configs/routes';
 
 export const Header = async () => {
   const session = await getServerAuthSession();
@@ -24,36 +25,15 @@ export const Header = async () => {
           <Castle className="h-6 w-6" />
           <span className="sr-only">Staff Central</span>
         </Link>
-        <Link
-          href="#"
-          className="text-foreground transition-colors hover:text-foreground"
-        >
-          Dashboard
-        </Link>
-        <Link
-          href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Orders
-        </Link>
-        <Link
-          href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Products
-        </Link>
-        <Link
-          href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Customers
-        </Link>
-        <Link
-          href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Analytics
-        </Link>
+        {Object.values(routes).map(({title, href}) => (
+          <Link
+            key={title}
+            href={href}
+            className="text-foreground transition-colors hover:text-foreground"
+          >
+            {title}
+          </Link>
+        ))}
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -75,33 +55,15 @@ export const Header = async () => {
               <Castle className="h-6 w-6" />
               <span className="sr-only">Staff Central</span>
             </Link>
-            <Link href="#" className="hover:text-foreground">
-              Dashboard
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Orders
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Products
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Customers
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Analytics
-            </Link>
+            {Object.values(routes).map(({title, href}) => (
+              <Link
+                key={title}
+                href={href}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {title}
+              </Link>
+            ))}
           </nav>
         </SheetContent>
       </Sheet>
@@ -117,14 +79,20 @@ export const Header = async () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <Link
+                href={routes.profile.href}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {routes.profile.title}
+              </Link>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuItem>Настройки</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href="/api/auth/signout">
-                Sign out
+              <Link href={routes.signOut.href}>
+                {routes.signOut.title}
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
